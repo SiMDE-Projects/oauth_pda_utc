@@ -1,0 +1,10 @@
+name: Build and Test
+on: push
+
+jobs:
+  test:
+    name: TODO Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo TODO Build and Test
