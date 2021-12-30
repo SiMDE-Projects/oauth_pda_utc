@@ -10,6 +10,9 @@ requests = "*"
 djangorestframework = ">=3.12"
 
 [dev-packages]
+pyflakes = "*"
+yapf = "*"
+ipython = "*"
 
 [requires]
 python_version = "3.8"
