@@ -93,7 +93,7 @@ from django.urls import path, include
 
 urlpatterns = [
     ...,
-    path('<url_path>/', include('oauth_pda.urls')),
+    path('<url_path>/', include('oauth_pda_app.urls')),
     ...
 ]
 ```
