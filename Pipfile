@@ -14,6 +14,7 @@ drf-spectacular = "*"
 pyflakes = "*"
 yapf = "*"
 ipython = "*"
+setuptools = "*"
 
 [requires]
 python_version = "3.8"
