@@ -75,7 +75,6 @@ où `<ref>` indique la référence à récupérer.
 Il peut s'agir d'une branche, d'un tag ou d'un hash complet de commit.
 
 L'option `-e` est nécessaire pour l'installation d'un paquet depuis une URL.
-La partie `@dev/integrate_oauth_app` indique quelle référence utiliser pour construire le paquet, ici en l'occurence la branche.
 Le `#egg` indique le nom du projet à récupérer.
 
 L'application doit être inclue dans les paramètres du projet Django, dans le fichier `settings.py` :
