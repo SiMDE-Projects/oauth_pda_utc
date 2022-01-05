@@ -66,11 +66,13 @@ L'utilisateur est ensuite redirigé sur l'accueil de l'application.
 
 ## Installation
 
-Le package peut être installé avec `pip` ou `pipenv` en indiquant l'URl du paquet github.
+Le package peut être installé avec `pip` ou `pipenv` en indiquant l'URl du paquet github (https://pip.pypa.io/en/stable/topics/vcs-support/).
 Par exemple avec pipenv :
 ```shell
-pipenv install -e "git+https://github.com/SiMDE-Projects/oauth_pda_utc@dev/integrate_oauth_app#egg=oauth_pda_app"
+pipenv install -e "git+https://github.com/SiMDE-Projects/oauth_pda_utc@<ref>#egg=oauth_pda_app"
 ```
+où `<ref>` indique la référence à récupérer.
+Il peut s'agir d'une branche, d'un tag ou d'un hash complet de commit.
 
 L'option `-e` est nécessaire pour l'installation d'un paquet depuis une URL.
 La partie `@dev/integrate_oauth_app` indique quelle référence utiliser pour construire le paquet, ici en l'occurence la branche.
@@ -97,7 +99,7 @@ urlpatterns = [
     ...
 ]
 ```
-`<url_path>` représente la base à laquelle le module OAuth doit répondre, par exemle `oauth`.
+`<url_path>` représente la base à laquelle le module OAuth doit répondre, par exemple `oauth`.
 Cette base préfixe toutes les routes présentées plus haut.
 
 ## Configuration
