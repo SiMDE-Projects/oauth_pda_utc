@@ -8,13 +8,8 @@ django = "==3.2"
 oauthlib = "*"
 requests = "*"
 djangorestframework = ">=3.12"
-drf-spectacular = "*"
 
 [dev-packages]
-pyflakes = "*"
-yapf = "*"
-ipython = "*"
-setuptools = "*"
 
 [requires]
 python_version = "3.8"
