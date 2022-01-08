@@ -104,4 +104,10 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-OAUTH_SETTINGS = config.OAUTH_SETTINGS
+OAUTH_SETTINGS = {
+    "token_url": "https://assos.utc.fr/oauth/token",
+    "authorization_url": "https://assos.utc.fr/oauth/authorize",
+    "api_base_url": "https://assos.utc.fr/api/v1"
+}
+
+OAUTH_SETTINGS.update(config.OAUTH_SETTINGS)

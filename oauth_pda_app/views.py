@@ -42,6 +42,7 @@ def request_oauth_token(request):
     stocke le token et les infos de l'utilisateur dans la session Django.
     L'API ne renvoie rien.
     """
+    redirect_to = request.GET.get('redirect_to', settings.OAUTH_SETTINGS.get('default_login_redirect', '/'))
     code: str = request.query_params['code']
 
     # création du client OAuth
@@ -67,9 +68,9 @@ def request_oauth_token(request):
     # ajout du token sur la session
     request.session['token'] = res
 
-    # redirige à l'endroit indiqué dans la configuration, ou à l'accueil
-    # par défaut
-    return redirect(settings.OAUTH_SETTINGS.get('login_redirect', '/'))
+    # redirige à l'endroit indiqué dans la requête, sinon à celui indiqué dans la configuration,
+    # ou par défaut à la racine
+    return redirect(redirect_to)
 
 
 @api_view(['GET'])
@@ -77,9 +78,10 @@ def user_logout(request):
     """
     Vue qui supprime la session de l'utilisateur
     """
+    redirect_to = request.GET.get('redirect_to', settings.OAUTH_SETTINGS.get('default_logout_redirect', '/'))
     if 'token' in request.session:
         request.session.pop('token')
 
-    # redirige à l'endroit indiqué dans la configuration, ou à l'accueil
-    # par défaut
-    return redirect(settings.OAUTH_SETTINGS.get('logout_redirect', '/'))
+    # redirige à l'endroit indiqué dans la requête, sinon à celui indiqué dans la configuration,
+    # ou par défaut à l'accueil
+    return redirect(redirect_to)

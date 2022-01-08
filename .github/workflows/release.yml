@@ -16,7 +16,7 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been release.'
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been released.'
 
   on-failure:
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been failed to release.'
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been failed to released.'
 
   tag:
     needs:
@@ -43,6 +43,7 @@ jobs:
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.0
         with:
+          create_annotated_tag: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   release:

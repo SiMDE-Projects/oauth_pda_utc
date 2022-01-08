@@ -62,7 +62,7 @@ Ces tokens sont enregistrés dans la session Django courante, sous la forme d'un
 Les tokens enregistrés dans la session sont ensuite accessibles dans le backend Django avec d'autres applications, et ne sont pas directement accessibles par le frontend.
 Ils peuvent être utilisés pour authentifier les requêtes aux différentes APIs du portail des assos.
 
-L'utilisateur est ensuite redirigé sur l'accueil de l'application.
+L'utilisateur est ensuite redirigé sur l'url spécifiée via le query parameter `redirect_to` ou par défaut à la racine de l'application.
 
 ## Installation
 
@@ -111,8 +111,6 @@ Les informations requises au minimum dans le dictionnaire sont les suivantes :
 OAUTH_SETTINGS = {
     'client_id': 'xxxxxxx',                                      # ID du client OAuth
     'client_secret': 'xxxxxxx',                                  # Secret du client OAuth
-    'authorization_url': 'https://assos.utc.fr/oauth/authorize', # lien d'autorisation OAuth sur le PDA
-    'token_url': 'https://assos.utc.fr/oauth/token',             # lien de récupération des tokens sur le PDA
     'redirect_uri': 'http://xxxxxxxxx',                          # adresse de callback
     'scopes': [                                                  # types des données à récupérer
         'user-get-info',
@@ -129,6 +127,6 @@ D'autres éléments de configuration peuvent être ajoutés dans le dictionnaire
 - `authorization_route` : route à utiliser pour générer la route du module OAuth qui renvoie l'adresse d'autorisation du portail [défaut : `<url_path>/authlink`]
 - `callback_route` : route qui récupère la redirection avec le code d'autorisation [défaut : `<url_path>/callback`]
 - `logout_route` : route qui supprime le token de la session Django [défaut : `<url_path>/logout`]
-- `login_redirect` : adresse sur laquelle rediriger l'utilisateur après la récupération des tokens [défaut : `/`]
-- `logout_redirect` : adresse sur laquelle rediriger l'utilisateur après la déconnexion [défaut : `/`]
+- `default_login_redirect` : adresse sur laquelle rediriger l'utilisateur après la récupération des tokens si rien n'est spécifié dans le requête [défaut : `/`]
+- `default_logout_redirect` : adresse sur laquelle rediriger l'utilisateur après la déconnexion si rien n'est spécifié dans le requête [défaut : `/`]
 

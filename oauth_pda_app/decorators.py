@@ -1,7 +1,7 @@
 from requests import Response
 
 
-def is_sso_authenticated(func):
+def require_sso_authenticated(func):
     def wrapper(request, *args, **kwargs):
         if 'token' not in request.session.keys():
             res = Response()
