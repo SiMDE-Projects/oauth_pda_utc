@@ -2,7 +2,7 @@ from requests import Response
 
 
 def require_sso_authenticated(func):
-    def wrapper(request, *args, **kwargs):
+    def wrapper(self, request, *args, **kwargs):
         if 'token' not in request.session.keys():
             res = Response()
             res.status_code = 401
@@ -12,6 +12,6 @@ def require_sso_authenticated(func):
         token = request.session['token']
         request.headers['Authorization'] = 'Bearer {}'.format(token)
 
-        return func(request, *args, **kwargs)
+        return func(self, request, *args, **kwargs)
 
     return wrapper
