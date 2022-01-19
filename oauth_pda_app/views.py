@@ -77,8 +77,9 @@ def user_logout(request):
     """
     Vue qui supprime la session de l'utilisateur
     """
-    if 'token' in request.session:
-        request.session.pop('token')
+
+    # supprime tous les éléments de la session (incluant le token)
+    request.session.clear()
 
     # redirige à l'endroit indiqué dans la configuration, ou à l'accueil
     # par défaut
