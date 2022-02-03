@@ -128,7 +128,7 @@ Attention à éviter d'inclure les informations sensibles du client (ID/Secret) 
 D'autres éléments de configuration peuvent être ajoutés dans le dictionnaire pour personnaliser les adresses des routes exposées :
 - `authorization_route` : route à utiliser pour générer la route du module OAuth qui renvoie l'adresse d'autorisation du portail [défaut : `<url_path>/authlink`]
 - `callback_route` : route qui récupère la redirection avec le code d'autorisation [défaut : `<url_path>/callback`]
-- `logout_route` : route qui supprime le token de la session Django [défaut : `<url_path>/logout`]
+- `logout_route` : route qui supprime la session Django [défaut : `<url_path>/logout`]
 - `login_redirect` : adresse sur laquelle rediriger l'utilisateur après la récupération des tokens [défaut : `/`]
 - `logout_redirect` : adresse sur laquelle rediriger l'utilisateur après la déconnexion [défaut : `/`]
 
