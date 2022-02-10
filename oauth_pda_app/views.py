@@ -1,17 +1,13 @@
-import json
-
 import requests
 from django.conf import settings
-from django.http import HttpResponseRedirect
+from django.contrib.auth import logout
 from django.shortcuts import redirect
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from oauthlib.oauth2 import WebApplicationClient
 from rest_framework import views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth import login, logout
 
-import oauth_pda_app.backend
 from oauth_pda_app.serializers import AuthorizationLink, AuthorizationLinkSerializer, UserInfoSerializer
 
 
@@ -70,12 +66,13 @@ def request_oauth_token(request):
     # ajout du token sur la session
     request.session['token'] = res
 
-    response = requests.get('{}/user'.format(settings.OAUTH_SETTINGS.get('api_base_url', 'https://assos.utc.fr/api/v1')),
-                            headers={
-                                'Authorization':
-                                    'Bearer {}'.format(
-                                        res['access_token'])
-                            })
+    response = requests.get(
+        '{}/user'.format(settings.OAUTH_SETTINGS.get('api_base_url', 'https://assos.utc.fr/api/v1')),
+        headers={
+            'Authorization':
+                'Bearer {}'.format(
+                    res['access_token'])
+        })
     user = UserInfoSerializer(response.json())
     request.session['user'] = user.data
     # redirige à l'endroit indiqué dans la configuration, ou à l'accueil
