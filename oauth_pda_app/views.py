@@ -1,15 +1,15 @@
-from rest_framework.decorators import api_view
-from rest_framework import views
-from rest_framework.response import Response
-from django.shortcuts import redirect
+import requests
 from django.conf import settings
-
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from oauthlib.oauth2 import WebApplicationClient
-import requests
+from rest_framework import views
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-from .serializers import AuthorizationLink
-from .serializers import AuthorizationLinkSerializer
+from oauth_pda_app.serializers import AuthorizationLink, AuthorizationLinkSerializer, UserInfoSerializer
+from oauth_pda_app.utils import get_api
 
 
 class GetAuthorizationLink(views.APIView):
@@ -67,6 +67,9 @@ def request_oauth_token(request):
     # ajout du token sur la session
     request.session['token'] = res
 
+    response = get_api(request, '/user')
+    user = UserInfoSerializer(response.json())
+    request.session['user'] = user.data
     # redirige à l'endroit indiqué dans la configuration, ou à l'accueil
     # par défaut
     return redirect(settings.OAUTH_SETTINGS.get('login_redirect', '/'))
@@ -79,7 +82,7 @@ def user_logout(request):
     """
 
     # supprime tous les éléments de la session (incluant le token)
-    request.session.clear()
+    logout(request)
 
     # redirige à l'endroit indiqué dans la configuration, ou à l'accueil
     # par défaut

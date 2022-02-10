@@ -1,7 +1,6 @@
-from rest_framework import serializers
 from django.conf import settings
-
 from oauthlib.oauth2 import WebApplicationClient
+from rest_framework import serializers
 
 
 class AuthorizationLink:
@@ -15,13 +14,10 @@ class AuthorizationLink:
         client = WebApplicationClient(settings.OAUTH_SETTINGS['client_id'])
 
         # construction de la requête d'autorisation oauth
-        url = client.prepare_request_uri(
+        self.link = client.prepare_request_uri(
             settings.OAUTH_SETTINGS['authorization_url'],
             redirect_uri=settings.OAUTH_SETTINGS['redirect_uri'],
             scope=settings.OAUTH_SETTINGS['scopes'])
-
-        # enregistrement du lien
-        self.link = url
 
 
 class AuthorizationLinkSerializer(serializers.Serializer):
@@ -29,3 +25,15 @@ class AuthorizationLinkSerializer(serializers.Serializer):
     Serializer pour AuthorizationLink
     """
     link = serializers.CharField()
+
+
+class UserInfoSerializer(serializers.Serializer):
+    """
+    Serializer pour renvoyer au front les informations sur l'utilisateur
+    connecté. Permet de filtrer la réponse du portail en récupérant les
+    champs qui nous intéressent
+    """
+    id = serializers.UUIDField()
+    email = serializers.CharField()
+    firstname = serializers.CharField()
+    lastname = serializers.CharField()
