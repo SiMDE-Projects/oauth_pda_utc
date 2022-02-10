@@ -9,6 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from oauth_pda_app.serializers import AuthorizationLink, AuthorizationLinkSerializer, UserInfoSerializer
+from oauth_pda_app.utils import get_api
 
 
 class GetAuthorizationLink(views.APIView):
@@ -66,13 +67,7 @@ def request_oauth_token(request):
     # ajout du token sur la session
     request.session['token'] = res
 
-    response = requests.get(
-        '{}/user'.format(settings.OAUTH_SETTINGS.get('api_base_url', 'https://assos.utc.fr/api/v1')),
-        headers={
-            'Authorization':
-                'Bearer {}'.format(
-                    res['access_token'])
-        })
+    response = get_api(request, '/user')
     user = UserInfoSerializer(response.json())
     request.session['user'] = user.data
     # redirige à l'endroit indiqué dans la configuration, ou à l'accueil
