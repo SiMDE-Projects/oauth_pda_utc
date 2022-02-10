@@ -1,15 +1,18 @@
-from rest_framework.decorators import api_view
-from rest_framework import views
-from rest_framework.response import Response
-from django.shortcuts import redirect
-from django.conf import settings
+import json
 
+import requests
+from django.conf import settings
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from oauthlib.oauth2 import WebApplicationClient
-import requests
+from rest_framework import views
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.contrib.auth import login, logout
 
-from .serializers import AuthorizationLink
-from .serializers import AuthorizationLinkSerializer
+import oauth_pda_app.backend
+from oauth_pda_app.serializers import AuthorizationLink, AuthorizationLinkSerializer, UserInfoSerializer
 
 
 class GetAuthorizationLink(views.APIView):
@@ -67,6 +70,14 @@ def request_oauth_token(request):
     # ajout du token sur la session
     request.session['token'] = res
 
+    response = requests.get('{}/user'.format(settings.OAUTH_SETTINGS.get('api_base_url', 'https://assos.utc.fr/api/v1')),
+                            headers={
+                                'Authorization':
+                                    'Bearer {}'.format(
+                                        res['access_token'])
+                            })
+    user = UserInfoSerializer(response.json())
+    request.session['user'] = user.data
     # redirige à l'endroit indiqué dans la configuration, ou à l'accueil
     # par défaut
     return redirect(settings.OAUTH_SETTINGS.get('login_redirect', '/'))
@@ -79,7 +90,7 @@ def user_logout(request):
     """
 
     # supprime tous les éléments de la session (incluant le token)
-    request.session.clear()
+    logout(request)
 
     # redirige à l'endroit indiqué dans la configuration, ou à l'accueil
     # par défaut
